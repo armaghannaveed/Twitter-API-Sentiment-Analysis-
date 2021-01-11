@@ -5,7 +5,7 @@ Built a live database using Twitter API to collect 3000+ tweets on intervals of 
 
 ![alt text](https://github.com/armaghannaveed/Twitter-API-Sentiment-Analysis-/blob/main/Sentiment%20Analysis.jpeg)
 
-![alt text](SHOW FROM WHERE THE TWEETS ARE PUBLISHED.jpeg)
+![alt text](https://github.com/armaghannaveed/Twitter-API-Sentiment-Analysis-/blob/main/SHOW%20FROM%20WHERE%20THE%20TWEETS%20ARE%20PUBLISHED.jpeg)
 
 
 ## Pre-requisites
