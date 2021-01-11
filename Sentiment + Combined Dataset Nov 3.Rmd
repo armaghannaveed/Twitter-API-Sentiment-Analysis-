@@ -1,0 +1,219 @@
+---
+title: "Twitter API Database Collection 3/11/2020"
+author: "Armaghan Naveed"
+date: "28/10/2020"
+output: html_document
+---
+if (!requireNamespace("httpuv", quietly = TRUE)) {
+  install.packages("httpuv")
+}
+library(ggplot2)
+library(httpuv)
+install.packages("twitteR")
+library(twitteR)
+install.packages("syuzhet")
+library(rtweet)
+library(syuzhet)
+
+# Change the next four lines based on your own consumer_key, consume_secret, access_token, and access_secret. 
+api_key <- "OclsYElxRhfHKCptTujMVuS1J"
+api_secret_key <- "Jh2EZfVPFehFB30UHzYNiFlDABYAvDkVPARsMdMEdt3w3o0t0q"
+access_token <- "3140278232-J5qaLoxOY8CocHHkAlSdpFYJjz8VAEWArDmDy87"
+access_secret <- "NatHAJP6D046xBjjlkijp12BuwSkxhyA9zX6X40wMMtRe"
+
+#Getting raw Tweets, 8000> 3224 gives max tweets extracted
+NYTimes_tweets <- get_timeline("@nytimes", n= 8000)
+
+Washington_tweets <- get_timeline("@washingtonpost", n=8000)
+Wasington_post_tweets <- Washington_tweets
+
+WSJ_tweets <- get_timeline("@wsj", n=8000)
+
+TheHill_tweets <- get_timeline("@thehill", n=8000)
+
+#If you want empty vertical rows use this df[nrow(df)+1,] <- NA
+
+#Combining the raw data sets
+Final_dataset <- rbind(NYTimes_tweets, Wasington_post_tweets,WSJ_tweets, TheHill_tweets)
+
+
+# Converting tweets to ASCII to trackle strange characters
+ASC_Final <- iconv(Final_dataset, from="UTF-8", to="ASCII", sub="")
+
+
+# removing retweets, in case needed 
+# tweets <-gsub("(RT|via)((?:\\b\\w*@\\w+)+)","",tweets)
+
+# removing mentions, in case needed
+# tweets <-gsub("@\\w+","",tweets)
+
+ew_sentiment<-get_nrc_sentiment((ASC_Final))
+sentimentscores<-data.frame(colSums(ew_sentiment[,]))
+
+names(sentimentscores) <- "Score"
+
+sentimentscores <- cbind("sentiment"=rownames(sentimentscores),
+sentimentscores)
+rownames(sentimentscores) <- NULL
+
+ggplot(data=sentimentscores,aes(x=sentiment,y=Score))+
+  geom_bar(aes(fill=sentiment),stat = "identity")+
+  theme(legend.position="none")+
+  xlab("Sentiments")+ylab("Scores")+
+  ggtitle("Total sentiment based on scores")+
+  theme_minimal()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#//Discard this!!!!!!!!
+#Previous Code Scratch Work
+---
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+library(tidyverse)
+install.packages(rtweet)
+install.packages("twitterR")
+install.packages("rtweet")
+if (!requireNamespace("httpuv", quietly = TRUE)) {
+install.packages("httpuv")
+}
+library(tidytext)
+library(tidyverse)
+## load rtweet
+library(rtweet)
+library(httpuv)
+install.packages("httpuv")
+library(twitterR)
+## authenticate via web browser
+token <- create_token(
+app = "Sample Analysis v1",
+consumer_key = api_key,
+consumer_secret = api_secret_key)
+token2 <- create_token(consumer_key = api_key,consumer_secret = api_secret_key, access_token,
+access_secret)
+# whatever name you assigned to your created app
+appname <- "Sample Analysis v10"
+access_token <- "3140278232-rH8uW08lWwEa3N1LHLwjfOLaGqNuCYukVYjW7E5"
+access_secret <- "2mlItgWzPgPQjAQ4WiOlDyUgHtOiCgu4JXrv7bXLnTMVO"
+#Another try
+# create token named "twitter_token"
+install(rtweet)
+Install(rtweet)
+load(tidyverse)
+Install (ggplots2)
+install (ggplots2)
+load (ggplots2)
+Install(rtweet)
+---
+title: "Twitter"
+author: "Armaghan Naveed"
+date: "10/3/2020"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## R Markdown
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r cars}
+summary(cars)
+```
+## Including Plots
+You can also embed plots, for example:
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+library(tidyverse)
+install.packages(rtweet)
+install.packages("twitterR")
+install.packages("rtweet")
+if (!requireNamespace("httpuv", quietly = TRUE)) {
+install.packages("httpuv")
+}
+library(tidytext)
+library(tidyverse)
+## load rtweet
+library(rtweet)
+library(httpuv)
+install.packages("httpuv")
+library(twitterR)
+## store api keys (these are fake example values; replace with your own keys)
+api_key <- "OclsYElxRhfHKCptTujMVuS1J"
+api_secret_key <- "Jh2EZfVPFehFB30UHzYNiFlDABYAvDkVPARsMdMEdt3w3o0t0q"
+## authenticate via web browser
+token <- create_token(
+app = "Sample Analysis v1",
+consumer_key = api_key,
+consumer_secret = api_secret_key)
+token2 <- create_token(consumer_key = api_key,consumer_secret = api_secret_key, access_token="3140278232-B7FELF1Qdh86W15uzwBoe0J6aVWvvLh8zCAlTOK",
+access_secret="JcXibnte72JdnY1Js40aLJ4jOev31UoYxFDVBjlvkm6nG")
+# whatever name you assigned to your created app
+appname <- "Sample Analysis v10"
+access_token <- "3140278232-rH8uW08lWwEa3N1LHLwjfOLaGqNuCYukVYjW7E5"
+access_secret <- "2mlItgWzPgPQjAQ4WiOlDyUgHtOiCgu4JXrv7bXLnTMVO"
+#Another try
+# create token named "twitter_token"
+twitter_token1 <- create_token(
+app = appname,
+consumer_key = api_key,
+consumer_secret = api_secret_key,
+access_token = access_token,
+access_secret = access_secret)
+# post a tweet from R
+post_tweet("Look, i'm tweeting from R in my #rstats #earthanalytics class! @EarthLabCU")
+if (!requireNamespace("httpuv", quietly = TRUE)) {
+install.packages("httpuv")
+}
+library(tidytext)
+library(tidyverse)
+library(rtweet)
+library(httpuv)
+install.packages("httpuv")
+library(twitterR)
+install.packages("httpuv")
+library(rtweet)
+library(twitterR)
+api_key <- "OclsYElxRhfHKCptTujMVuS1J"
+api_secret_key <- "Jh2EZfVPFehFB30UHzYNiFlDABYAvDkVPARsMdMEdt3w3o0t0q"
+token <- create_token(
+app = "Sample Analysis v1",
+consumer_key = api_key,
+consumer_secret = api_secret_key)
+token2 <- create_token(consumer_key = api_key,consumer_secret = api_secret_key, access_token="3140278232-B7FELF1Qdh86W15uzwBoe0J6aVWvvLh8zCAlTOK",
+access_secret="JcXibnte72JdnY1Js40aLJ4jOev31UoYxFDVBjlvkm6nG")
+appname <- "Sample Analysis v10"
+access_token <- "3140278232-rH8uW08lWwEa3N1LHLwjfOLaGqNuCYukVYjW7E5"
+access_secret <- "2mlItgWzPgPQjAQ4WiOlDyUgHtOiCgu4JXrv7bXLnTMVO"
+twitter_token1 <- create_token(
+app = appname,
+consumer_key = api_key,
+consumer_secret = api_secret_key,
+access_token = access_token,
+access_secret = access_secret)
+NYTimes_tweets <- get_timeline("@nytimes", n= 8000)
+# Remove retweets
+NYTimes_tweets_organic <- NYTimes_tweets[NYTimes_tweets$is_retweet==FALSE, ]
+# Remove replies
+
+
+
+
